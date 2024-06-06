@@ -181,7 +181,8 @@ class FingerprintFeatureExtractor(object):
             row, col = curr_minutiae.locX, curr_minutiae.locY
             (rr, cc) = skimage.draw.circle_perimeter(row, col, 3)
             skimage.draw.set_color(DispImg, (rr, cc), (255, 0, 0))
-        cv2.imwrite('result.png', DispImg)
+        #cv2.imwrite('result.png', DispImg)
+        return DispImg
 
 def extract_minutiae_features(img, spuriousMinutiaeThresh=10, invertImage=False, showResult=False, saveResult=False):
     feature_extractor = FingerprintFeatureExtractor()
@@ -192,9 +193,9 @@ def extract_minutiae_features(img, spuriousMinutiaeThresh=10, invertImage=False,
     FeaturesTerm, FeaturesBif = feature_extractor.extractMinutiaeFeatures(img)
 
     if (saveResult):
-        feature_extractor.saveResult(FeaturesTerm, FeaturesBif)
+        result_image = feature_extractor.saveResult(FeaturesTerm, FeaturesBif)
 
     if(showResult):
         feature_extractor.showResults(FeaturesTerm, FeaturesBif)
 
-    return(FeaturesTerm, FeaturesBif)
+    return(FeaturesTerm, FeaturesBif, result_image)
